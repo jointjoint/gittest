@@ -58,10 +58,7 @@ def run(factor_name: str, config: FactorTestConfig) -> dict:
 
     # ── 2. Month-end prices & returns ───────────────────────────
     print("[2/6] Computing monthly prices & universe filter...")
-    try:
-        monthly_price = price.resample("ME").last()
-    except ValueError:
-        monthly_price = price.resample("M").last()
+    monthly_price = price.resample("M").last()
 
     universe_filter = UniverseFilter()
     valid_mask = universe_filter.monthly_mask(price)
@@ -87,10 +84,7 @@ def run(factor_name: str, config: FactorTestConfig) -> dict:
 
     # ── 4. Preprocess factor ─────────────────────────────────────
     print("[4/6] Preprocessing factor (winsorize → neutralize → standardize)...")
-    try:
-        mkt_cap_monthly = mkt_cap.resample("ME").last()
-    except ValueError:
-        mkt_cap_monthly = mkt_cap.resample("M").last()
+    mkt_cap_monthly = mkt_cap.resample("M").last()
 
     preprocessor = FactorPreprocessor(config)
     proc_factor = preprocessor.process(

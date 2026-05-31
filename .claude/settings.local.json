@@ -9,7 +9,13 @@
       "Bash(/c/ProgramData/Anaconda3/python.exe -c \"import matplotlib; print\\(matplotlib.__version__\\)\")",
       "Bash(/c/Users/25720/PycharmProjects/test/venv/Scripts/python.exe --version)",
       "Bash(/c/Users/25720/PycharmProjects/test/venv/Scripts/python.exe -c \"import pandas; print\\('pandas', pandas.__version__\\)\")",
-      "Bash(/c/ProgramData/Anaconda3/Scripts/conda.exe info *)"
+      "Bash(/c/ProgramData/Anaconda3/Scripts/conda.exe info *)",
+      "Bash(/c/ProgramData/Anaconda3/Scripts/conda.exe env *)",
+      "Bash(/c/ProgramData/Anaconda3/Scripts/conda.exe run *)",
+      "Bash(/c/ProgramData/Anaconda3/Scripts/conda.exe install *)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/ProgramData/Anaconda3/python.exe main.py --factor ROE_TTM)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/ProgramData/Anaconda3/python.exe main.py --factor MOM_12_1)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/ProgramData/Anaconda3/python.exe main.py --factor VOL_20D)"
     ]
   }
 }

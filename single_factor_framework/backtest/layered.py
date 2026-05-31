@@ -1,3 +1,4 @@
+from __future__ import annotations
 import numpy as np
 import pandas as pd
 from backtest.portfolio import calc_turnover, group_return, calc_nav
@@ -42,10 +43,7 @@ class LayeredBacktest:
 
         # benchmark monthly return
         bm_ret = benchmark.pct_change().dropna()
-        try:
-            bm_monthly = bm_ret.resample("ME").apply(lambda x: (1 + x).prod() - 1)
-        except ValueError:
-            bm_monthly = bm_ret.resample("M").apply(lambda x: (1 + x).prod() - 1)
+        bm_monthly = bm_ret.resample("M").apply(lambda x: (1 + x).prod() - 1)
 
         group_rets = {lb: {} for lb in self.labels}
         group_rets["LS"] = {}

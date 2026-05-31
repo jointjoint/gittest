@@ -69,7 +69,7 @@ def generate_sample_data(
     mkt_cap_df = price_df.mul(shares, axis=1)
 
     # ── monthly financial data (ROE) ─────────────────────────────
-    month_ends = pd.date_range(start_date, end_date, freq="ME")
+    month_ends = pd.date_range(start_date, end_date, freq="M")
     roe_rows = {}
     for dt in month_ends:
         roe_vals = quality * 0.15 + rng.normal(0, 0.035, n_stocks)

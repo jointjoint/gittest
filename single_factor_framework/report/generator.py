@@ -86,7 +86,7 @@ class ReportGenerator:
             xs, ys = zip(*valid)
             rho, p = stats.spearmanr(xs, ys)
             lines.append(f"  各层年化超额收益 Spearman ρ = {rho:.4f}  (p = {p:.4f})")
-            verdict = "单调性强 ✓" if abs(rho) >= 0.8 else ("单调性中等" if abs(rho) >= 0.6 else "单调性弱")
+            verdict = "单调性强 [OK]" if abs(rho) >= 0.8 else ("单调性中等" if abs(rho) >= 0.6 else "单调性弱")
             lines.append(f"  评估结论: {verdict}")
         lines.append("")
 
@@ -109,26 +109,26 @@ class ReportGenerator:
         score = 0
         hints = []
         if isinstance(ic_mean, float) and abs(ic_mean) >= 0.03:
-            score += 1; hints.append(f"|IC均值|={abs(ic_mean):.4f} ≥ 0.03 ✓")
+            score += 1; hints.append(f"|IC均值|={abs(ic_mean):.4f} >= 0.03  [PASS]")
         else:
-            hints.append(f"|IC均值|={abs(ic_mean):.4f} < 0.03 ✗")
+            hints.append(f"|IC均值|={abs(ic_mean):.4f} < 0.03   [FAIL]")
 
         if isinstance(icir, float) and abs(icir) >= 0.5:
-            score += 1; hints.append(f"|ICIR|={abs(icir):.4f} ≥ 0.5 ✓")
+            score += 1; hints.append(f"|ICIR|={abs(icir):.4f} >= 0.5   [PASS]")
         else:
-            hints.append(f"|ICIR|={abs(icir):.4f} < 0.5 ✗")
+            hints.append(f"|ICIR|={abs(icir):.4f} < 0.5    [FAIL]")
 
         if isinstance(ic_pos, float) and ic_pos >= 0.55:
-            score += 1; hints.append(f"IC>0比例={ic_pos:.2%} ≥ 55% ✓")
+            score += 1; hints.append(f"IC>0比例={ic_pos:.2%} >= 55%  [PASS]")
         else:
-            hints.append(f"IC>0比例={ic_pos:.2%} < 55% ✗")
+            hints.append(f"IC>0比例={ic_pos:.2%} < 55%   [FAIL]")
 
         if isinstance(p_val, float) and p_val < 0.05:
-            score += 1; hints.append(f"t检验 p={p_val:.4f} < 0.05（显著）✓")
+            score += 1; hints.append(f"t检验 p={p_val:.4f} < 0.05 (显著)  [PASS]")
         else:
-            hints.append(f"t检验 p={p_val:.4f} ≥ 0.05（不显著）✗")
+            hints.append(f"t检验 p={p_val:.4f} >= 0.05 (不显著) [FAIL]")
 
-        verdict = {4: "优秀因子 ★★★", 3: "有效因子 ★★☆", 2: "弱有效因子 ★☆☆", 1: "无效因子 ☆☆☆"}.get(score, "无效因子 ☆☆☆")
+        verdict = {4: "优秀因子 [***]", 3: "有效因子 [**]", 2: "弱有效因子 [*]", 1: "无效因子 [ ]"}.get(score, "无效因子 [ ]")
         for h in hints:
             lines.append(f"  • {h}")
         lines += ["", f"  综合评级: {verdict}", sep, ""]

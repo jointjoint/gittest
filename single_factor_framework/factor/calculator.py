@@ -30,11 +30,7 @@ class MomentumFactor(BaseFactor):
 
     def compute(self, data: dict) -> pd.DataFrame:
         price = data["price"]
-        try:
-            monthly = price.resample("ME").last()
-        except ValueError:
-            monthly = price.resample("M").last()
-
+        monthly = price.resample("M").last()
         ret_long = monthly.pct_change(self.lookback)
         ret_short = monthly.pct_change(self.skip)
         factor = ret_long - ret_short
@@ -58,10 +54,7 @@ class VolatilityFactor(BaseFactor):
         price = data["price"]
         daily_ret = price.pct_change()
         vol = daily_ret.rolling(self.window).std() * np.sqrt(252)
-        try:
-            monthly = vol.resample("ME").last()
-        except ValueError:
-            monthly = vol.resample("M").last()
+        monthly = vol.resample("M").last()
         return monthly.dropna(how="all")
 
 

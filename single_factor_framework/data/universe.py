@@ -39,13 +39,10 @@ class UniverseFilter:
                 continue
             iloc = price.index.get_loc(fv)
             cutoff = min(iloc + self.new_listing_days, len(price.index))
-            valid.iloc[:cutoff][stock] = False
+            valid.loc[price.index[:cutoff], stock] = False
         return valid.astype(bool)
 
     def monthly_mask(self, price: pd.DataFrame) -> pd.DataFrame:
         """Resample daily mask to month-end dates (all days in month must be valid)."""
         daily = self.build_daily_mask(price)
-        try:
-            return daily.resample("ME").min()
-        except ValueError:
-            return daily.resample("M").min()
+        return daily.resample("M").min()
