@@ -58,6 +58,7 @@ def run(factor_name: str, config: FactorTestConfig) -> dict:
 
     # ── 2. Month-end prices & returns ───────────────────────────
     print("[2/6] Computing monthly prices & universe filter...")
+    # 取月末最后一个交易日收盘价，避免用月内均价引入未来信息
     monthly_price = price.resample("M").last()
 
     universe_filter = UniverseFilter()
@@ -75,8 +76,9 @@ def run(factor_name: str, config: FactorTestConfig) -> dict:
         "benchmark": benchmark,
     }
     raw_factor = factor_obj.compute(data_bundle)
+    # 只保留 price 中存在的股票，剔除因子有值但价格缺失的标的
     raw_factor = raw_factor.reindex(columns=monthly_price.columns)
-    # align to month-end dates that exist in both price and factor
+    # 因子日历（财报披露日）与价格日历可能不对齐，取交集避免 NaN 截面
     common_dates = raw_factor.index.intersection(monthly_price.index)
     raw_factor    = raw_factor.loc[common_dates]
     monthly_price = monthly_price.loc[common_dates]
@@ -84,6 +86,7 @@ def run(factor_name: str, config: FactorTestConfig) -> dict:
 
     # ── 4. Preprocess factor ─────────────────────────────────────
     print("[4/6] Preprocessing factor (winsorize → neutralize → standardize)...")
+    # 市值需要在因子对齐之后单独 resample，确保日期索引与 proc_factor 一致
     mkt_cap_monthly = mkt_cap.resample("M").last()
 
     preprocessor = FactorPreprocessor(config)
@@ -147,6 +150,7 @@ def main():
     )
 
     results = []
+    # 用列表包装，方便后续扩展为多因子批量测试
     for fname in [args.factor]:
         result = run(fname, config)
         results.append(result)
