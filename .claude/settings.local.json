@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(python --version; python -c \"import pandas, numpy, scipy, statsmodels, matplotlib, seaborn; print\\('all packages ok'\\)\" 2>&1)",
+      "PowerShell(py *)",
+      "Bash(/c/ProgramData/Anaconda3/python.exe --version)",
+      "Bash(/c/ProgramData/Anaconda3/python.exe -c \"import pandas, numpy, scipy, statsmodels, matplotlib, seaborn; print\\('all ok'\\)\")",
+      "Bash(/c/ProgramData/Anaconda3/python.exe -c \"import pandas, numpy, scipy, statsmodels; print\\('core ok'\\)\")",
+      "Bash(/c/ProgramData/Anaconda3/python.exe -c \"import matplotlib; print\\(matplotlib.__version__\\)\")",
+      "Bash(/c/Users/25720/PycharmProjects/test/venv/Scripts/python.exe --version)",
+      "Bash(/c/Users/25720/PycharmProjects/test/venv/Scripts/python.exe -c \"import pandas; print\\('pandas', pandas.__version__\\)\")",
+      "Bash(/c/ProgramData/Anaconda3/Scripts/conda.exe info *)"
+    ]
+  }
+}
